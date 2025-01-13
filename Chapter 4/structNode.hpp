@@ -43,28 +43,6 @@ void display(Dnode* Node, ostream& os = cout){
         os << " ========================================\n";
     }
 }
-void Display(Snode* Node, ostream& os = cout){
-    if(Node){
-        Snode* temp = Node;
-        int counter = 0;
-        while(true){
-            os << " display[" << counter<< "]:\n";
-            display(temp);
-            counter++;
-            if(temp == NULL)break;
-            else if(temp == temp->next){
-                os << " !!SELF-REFERING-NODE!!\n";
-                break;
-            }
-            temp = temp->next;
-        }
-    }
-    else{
-        os << " ========================================\n";
-        os << " have node: NULL\n";
-        os << " ========================================\n";
-    }
-}
 void Display(Dnode* Node, ostream& os = cout){
     if(Node){
         Dnode* temp = Node;
@@ -87,7 +65,7 @@ void Display(Dnode* Node, ostream& os = cout){
         os << " ========================================\n";
     }
 }
-void Display(Snode* Node, Snode* tail = NULL, ostream& os = cout){
+void Display(Snode* Node, ostream& os = cout){
     if(Node){
         Snode* temp = Node;
         int counter = 0;
@@ -95,12 +73,12 @@ void Display(Snode* Node, Snode* tail = NULL, ostream& os = cout){
             os << " display[" << counter<< "]:\n";
             display(temp);
             counter++;
-            if(temp == tail){
-                os << " !!TAIL-REACHED!!\n";
+            if(temp == temp->next){
+                os << " !!SELF-REFERING-NODE!!\n";
                 break;
             }
-            else if(temp == temp->next){
-                os << " !!SELF-REFERING-NODE!!\n";
+            else if(temp->next == Node){
+                os << " !!TAIL-REACHED!!\n";
                 break;
             }
             temp = temp->next;
@@ -145,28 +123,6 @@ void display(Dnode* Node, ofstream& ofs){
         ofs << " ========================================\n";
     }
 }
-void Display(Snode* Node, ofstream& ofs){
-    if(Node){
-        Snode* temp = Node;
-        int counter = 0;
-        while(true){
-            ofs << " display[" << counter<< "]:\n";
-            display(temp);
-            counter++;
-            if(temp == NULL)break;
-            else if(temp == temp->next){
-                ofs << " !!SELF-REFERING-NODE!!\n";
-                break;
-            }
-            temp = temp->next;
-        }
-    }
-    else{
-        ofs << " ========================================\n";
-        ofs << " have node: NULL\n";
-        ofs << " ========================================\n";
-    }
-}
 void Display(Dnode* Node, ofstream& ofs){
     if(Node){
         Dnode* temp = Node;
@@ -176,10 +132,6 @@ void Display(Dnode* Node, ofstream& ofs){
             display(temp);
             counter++;
             if(temp == NULL)break;
-            else if(temp == temp->next){
-                ofs << " !!SELF-REFERING-NODE!!\n";
-                break;
-            }
             temp = temp->next;
         }
     }
@@ -189,7 +141,7 @@ void Display(Dnode* Node, ofstream& ofs){
         ofs << " ========================================\n";
     }
 }
-void Display(Snode* Node, Snode* tail = NULL, ofstream& ofs){
+void Display(Snode* Node, ofstream& ofs){
     if(Node){
         Snode* temp = Node;
         int counter = 0;
@@ -197,13 +149,12 @@ void Display(Snode* Node, Snode* tail = NULL, ofstream& ofs){
             ofs << " display[" << counter<< "]:\n";
             display(temp);
             counter++;
-            if(temp == tail){
-                ofs << " !!TAIL-REACHED!!\n";
+            if(temp == temp->next){
+                ofs << " !!SELF-REFERING-NODE!!\n";
                 break;
             }
-            if(temp == NULL)break;
-            else if(temp == temp->next){
-                ofs << " !!SELF-REFERING-NODE!!\n";
+            else if(temp->next == Node){
+                ofs << " !!TAIL-REACHED!!\n";
                 break;
             }
             temp = temp->next;
@@ -381,6 +332,35 @@ void insertCnode(Snode*& head, Snode* tail, Snode* ins, int ind = 0){
     }
     ins->next = (curr ? curr : ins);
     if(curr)curr->next = ins;
+    curr = ins;
+    nextNode(head, ind) = curr;
+}
+void insertCnode(Snode*& head, Snode* ins, int ind = 0){
+    if(ind < 0){cout << " negative index error\n"; return;}
+    Snode* curr = head;
+    int size = 0;
+    for(int i = 0; i < ind; i++){
+        if(!curr && !i){
+            if(!ind)break;
+            cout << " insertion out of bounds\a\n";
+            return;
+        }
+        if(curr){
+            if(curr->next == head){
+                size = i + 1;
+            }
+            else{
+                size = i;
+            }
+        }
+        else if(i == size){
+            cout << " insertion out of bounds\a\n";
+            return;
+        }
+        curr = curr->next;
+    }
+    ins->next = (curr ? curr : ins);
+    if(curr)curr->next = (curr->next == curr ? ins : curr->next);
     curr = ins;
     nextNode(head, ind) = curr;
 }
