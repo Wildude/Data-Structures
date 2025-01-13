@@ -1,29 +1,101 @@
-// Insertion of a doubly linked list
-#include <iostream>
-using namespace std;
-struct node{
-    string id;
-    node* prev;
-    node* next;
-};
-void dats(node* Node){
-    if(Node){
-        cout << " have node: " << Node << "\n";
-        cout << " with id: " << Node -> id << "\n pointing to (prev, next): ";
-        if(Node->prev)cout << Node->prev;
-        else cout << "NULL";
-        cout << ", ";
-        if(Node->next)cout << Node->next;
-        else cout << "NULL";
-        cout << endl;
-    }
-}
+// Insertion of a circular linked list (single)
+#include "structNode.hpp"
 int main(){
-    node* head = new node({"head_node", NULL, NULL});
-    dats(head);
-    node* temp = new node({"new head", NULL, head});
-    head->prev = temp;
-    dats(head);
-    dats(temp);
+    ofstream ofs("logs_init.txt");
+    Dnode* head = new Dnode({"head_node", NULL, NULL});
+    Dnode* temp = new Dnode({"new_head", NULL, NULL});
+    Dnode* temp2 = new Dnode({"third_head", NULL, NULL});
+    Dnode* temp4 = new Dnode({"fifth_node", NULL, NULL});
+    Dnode* temp3 = new Dnode({"fourth_node", NULL, temp4});
+    Dnode* empty = NULL;
+    ofs << " ========================================\n";
+    ofs << " head:\n";
+    display(head, ofs);
+    ofs << " ========================================\n";
+    ofs << " temp:\n";
+    display(temp, ofs);
+    ofs << " ========================================\n";
+    ofs << " temp2:\n";
+    display(temp2, ofs);
+    ofs << " ========================================\n";
+    ofs << " temp3:\n";
+    display(temp3, ofs);
+    insertDnode(head, temp);
+    cout << " after insertion 1\n";
+    cout << " ========================================\n";
+    cout << " head:\n";
+    display(head);
+    cout << " ========================================\n";
+    cout << " temp:\n";
+    display(temp);
+    insertDnode(head, temp2, 1);
+    cout << " after insertion 2\n";
+    cout << " ========================================\n";
+    cout << " head:\n";
+    display(head);
+    cout << " ========================================\n";
+    cout << " temp:\n";
+    display(temp);
+    cout << " ========================================\n";
+    cout << " temp2:\n";
+    display(temp2);
+    /*
+    cout << "after insertion 1\n";
+    insertDnode(head, temp);
+    Display(head);
+    cout << "after insertion 2\n";
+    insertDnode(head, temp2, 1);
+    Display(head);
+    //Display(empty);
+    */
+    cout << " after insertion 3\n";
+    insertDnode(head, temp3, 3);
+    cout << " ========================================\n";
+    cout << " head:\n";
+    display(head);
+    cout << " ========================================\n";
+    cout << " temp:\n";
+    display(temp);
+    cout << " ========================================\n";
+    cout << " temp2:\n";
+    display(temp2);
+    cout << " ========================================\n";
+    cout << " temp3:\n";
+    display(temp3);
+    cout << "after insertion 3\n";
+    Display(head);
+    cout << " after deletion 1\n";
+    deleteDnode(head, 4);
+    Display(head);
+    cout << " after deletion 2\n";
+    deleteDnode(head, 1);
+    Display(head);
+    cout << " after deletion 3\n";
+    deleteDnode(head, 1);
+    Display(head);
+    cout << " after deletion 4\n";
+    deleteDnode(head);
+    Display(head);
+    cout << " after deletion 5\n";
+    deleteDnode(head);
+    Display(head);
+    cout << " after deletion 6\n";
+    deleteDnode(head);
+    Display(head);
+    /*
+    cout << "after insertion 4\n";
+    insertDnode(head, temp3, 4);
+    //display(search(head, "new_head"));
+    //cout << "after deletion 1\n";
+    //deleteDnode(head);
+    //display(search(head, "new_head"));
+    Display(head);
+    */
+    //cout << "after deletion 2\n";
+    //deleteDnode(head, 1);
+    //Display(head);
+    //cout << "after deletion 3\n";
+    //deleteDnode(head, 2);
+    //Display(head);
     return 0;
 }
