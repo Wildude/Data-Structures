@@ -12,6 +12,17 @@ struct Dnode{
     Dnode* prev;
     Dnode* next;
 };
+template <class T>
+struct Lnode{
+    T id;
+    T* next;
+};
+template <class T>
+struct Bnode{
+    T id;
+    T* prev;
+    T* next;
+};
 // displays a single singly linked list node on an output stream (cout by default)
 void display(Snode* Node, ostream& os = cout){
     if(Node){
@@ -428,4 +439,105 @@ void deleteCDnode(Dnode*& head, int ind = 0){
         thisNode = nextNode; // changes are applied directly to the acutal head pointer
     }
     delete temp; // freeing memory
+}
+template <class T>
+int getSize(T* node){
+    int size = 0;
+    while(nextNode(node, size))size++;
+    return size;
+}
+template <class T>
+void display(T* Node, ostream& os = cout){
+    if(Node){
+        os << " ========================================\n";
+        os << " have node: " << Node << "\n";
+        os << " with id: " << Node -> id << "\n pointing to (next): ";
+        if(Node->next)os << Node->next;
+        else os << "NULL";
+        os << "\n ========================================\n";
+    }
+    else{
+        os << " ========================================\n";
+        os << " have node: NULL\n";
+        os << " ========================================\n";
+    }   
+}
+template <class T>
+void Display(T* Node, ostream& os = cout){
+    T* temp = Node;
+    int counter = 0;
+    while(true){
+        os << " display[" << counter<< "]:\n";
+        display(temp);
+        counter++;
+        if(!temp){
+            os << " !!TAIL-REACHED!!\n";
+            break; // avoids traversing beyond NULL/Tail node
+        }
+        else if(temp == (T*)temp->next){
+            os << " !!SELF-REFERING-NODE!!\n";
+            break; // avoids infinite loops caused by a self referring node
+        }
+        else if((T*)temp->next == Node){
+            os << " !!TAIL-REACHED!!\n";
+            break; // avoids infinite loops caused by a tail node pointing to the head node
+        }
+        temp = (T*)temp->next;
+    }
+}
+// insertion at a location (before the node) for an abstract typed singly linked list
+template <class T>
+void insertLnode(Lnode<T>*& head, Lnode<T>* ins, int index = 0){
+    if(index < 0){cout << " negative index error in deletion\a\n"; return;}
+    Lnode<T>* curr = head; // traversing pointer
+    int size = 0; // size of the list
+    for(int i = 0; i < index; i++){
+        if(!curr && !i){ // checks if list is empty
+            if(!index)break; // if adding on an empty list, index must be 0 only
+            cout << " insertion out of bounds\a\n"; // else it quits
+            return;
+        }
+        if(curr){ // checks if the current node is not NULL
+            // sets size to current location + 1 to avoid traversing beyond the tail
+            if(curr->next == NULL)size = i + 1; 
+            else size = i;
+        }
+        else if(i == size){ // if this is reached then the insertion is out of bounds
+            cout << " insertion out of bounds\n\a";
+            return;
+        }
+        curr = curr->next; // forward traversing
+    }
+    // the next pointer of the inserted node is the current node
+    ins->next = curr; 
+    // the current pointer will point to the inserted node
+    curr = ins;
+    // traverses to the exact node to be changed and returns it's alias.
+    // this is done since the head pointer must be passed by reference
+    // for the insertion to work outside the function scope.
+    nextNode(head, index) = curr;
+}
+template <class T>
+void deleteLnode(Lnode<T>*& head, int index = 0){
+    if(index < 0){cout << " negative index error in deletion\a\n"; return;}
+    Lnode<T>* curr = head; // traversing pointer
+    int size = 0; // size of the list
+    for(int i = 0; i <= index; i++){
+        if(!curr && !index){cout << " Linked list is already empty\a\n"; return;} // can't delete an empty list
+        if(curr){
+            if(curr->next == NULL)size = i + 1; // setting the size to avoid traversal beyond tail
+            else size = i;
+        }
+        else if(i == size){ // if this is reached, deletion is out of bounds
+            cout << " deletion out of bounds\n\a";
+            return;
+        }
+        // traverses only if the index is not pointing the current node
+        // this avoids traversal beyond Tail.
+        if(i != index)curr = curr->next; 
+    }
+    Lnode<T>* temp = curr; // holding the memory location to be deleted.
+    // setting the current node to the next node and applying changes to the actual head pointer parameter
+    setNextNode(nextNode(head, index));
+    delete temp; // freeing memory   
 }
