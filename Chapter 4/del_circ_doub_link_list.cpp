@@ -1,4 +1,4 @@
-// insertion of doubly linked lists
+// deletion of circular/doubly linked list illustration
 #include "structNode.hpp"
 int main(){
     Dnode* head = new Dnode({"head_node", NULL, NULL});
@@ -6,11 +6,17 @@ int main(){
     Dnode* temp2 = new Dnode({"third_head", NULL, NULL});
     Dnode* temp4 = new Dnode({"fifth_node", NULL, NULL});
     Dnode* temp3 = new Dnode({"fourth_node", NULL, temp4});
+    //
+    head->next = head->prev = head;
+    temp->next = temp->prev = temp;
+    temp2->next = temp2->prev = temp2;
+    temp3->next = temp3->prev = temp3;
+    temp4->next = temp4->prev = temp4;
+    //
     Dnode* empty = NULL;
-    // description
-    cout << " insertion operation for a doubly linked list:\n";
-    cout << " insertion is done before the index/location\n";
-    cout << " to insert after index/location use index value as index + 1\n";
+    cout << " deletion of doubly/circular linked list:\n";
+    cout << " deletion done on the index position\n";
+    cout << " if list will be empty after deletion, head/tail is made to point to NULL\n";
     cout << " ========================================\n";
     cout << " head:\n";
     Display(head);
@@ -29,8 +35,17 @@ int main(){
     cout << " ========================================\n";
     cout << " empty:\n";
     Display(empty);
-    insertDnode(empty, head);
-    cout << " after insertion 1 (head on empty (empty node))\n";
+    cout << " after all insertions:\n";
+    insertCDnode(empty, head);
+    insertCDnode(empty, temp);
+    insertCDnode(empty, temp2, 1);
+    insertCDnode(empty, temp3, 2);
+    insertCDnode(empty, temp4, 4);
+    cout << " 1. (inserting head on empty (empty list))\n";
+    cout << " 2. (inserting temp as head of empty (has one node)\n";
+    cout << " 3. (inserting temp2 at 1th position of empty (has two nodes)\n";
+    cout << " 4. (inserting temp3 at 2th position of empty (has three nodes)\n";
+    cout << " 5. (inserting temp4 at 4th position of empty (has four nodes)\n";
     cout << " ========================================\n";
     cout << " head:\n";
     Display(head);
@@ -49,10 +64,37 @@ int main(){
     cout << " ========================================\n";
     cout << " empty:\n";
     Display(empty);
-    insertDnode(empty, temp);
-    cout << " after insertion 2 (temp on head of empty (one node))\n";
+    // deletion
+    deleteCDnode(empty, 2);
+    cout << " after deletion 1 (deleting the 2th position)\n";
     cout << " ========================================\n";
     cout << " head:\n";
+    Display(head);
+    cout << " ========================================\n";
+    cout << " temp:\n";
+    Display(temp);
+    cout << " ========================================\n";
+    cout << " temp2:\n";
+    Display(temp2);
+    cout << " ========================================\n";
+    cout << " temp3:\n";
+    cout << " !!! note that temp3 is now pointing to an unallocated memory (reading temp3 causes abnomral program termination)\n";
+    cout << " so point temp3 to NULL\n now temp3 is:\n";
+    temp3 = NULL;
+    Display(temp3);
+    cout << " ========================================\n";
+    cout << " temp4:\n";
+    Display(temp4);
+    cout << " ========================================\n";
+    cout << " empty:\n";
+    Display(empty);
+    deleteCDnode(empty, 2);
+    cout << " after deletion 2 (deleting the 2th position)\n";
+    cout << " ========================================\n";
+    cout << " head:\n";
+    cout << " !!! note that head is now pointing to an unallocated memory (reading head causes abnomral program termination)\n";
+    cout << " so point head to NULL\n now head is:\n";
+    head = NULL;
     Display(head);
     cout << " ========================================\n";
     cout << " temp:\n";
@@ -69,8 +111,31 @@ int main(){
     cout << " ========================================\n";
     cout << " empty:\n";
     Display(empty);
-    insertDnode(empty, temp2, 1);
-    cout << " after insertion 3 (temp2 on 1th node of empty (two nodes))\n";
+    deleteCDnode(empty, 1);
+    cout << " after deletion 3 (deleting 1th position)\n";
+    cout << " ========================================\n";
+    cout << " head:\n";
+    Display(head);
+    cout << " ========================================\n";
+    cout << " temp:\n";
+    Display(temp);
+    cout << " ========================================\n";
+    cout << " temp2:\n";
+    cout << " !!! note that temp2 is now pointing to an unallocated memory (reading temp2 causes abnomral program termination)\n";
+    cout << " so point temp2 to NULL\n now temp2 is:\n";
+    temp2 = NULL;
+    Display(temp2);
+    cout << " ========================================\n";
+    cout << " temp3:\n";
+    Display(temp3);
+    cout << " ========================================\n";
+    cout << " temp4:\n";
+    Display(temp4);
+    cout << " ========================================\n";
+    cout << " empty:\n";
+    Display(empty);
+    deleteCDnode(empty, 1);
+    cout << " after deletion 4 (deleting the 1th position)\n";
     cout << " ========================================\n";
     cout << " head:\n";
     Display(head);
@@ -85,17 +150,27 @@ int main(){
     Display(temp3);
     cout << " ========================================\n";
     cout << " temp4:\n";
+    cout << " !!! note that temp4 is now pointing to an unallocated memory (reading temp4 causes abnomral program termination)\n";
+    cout << " so point temp4 to NULL\n now temp4 is:\n";
+    // for some reason the function can't free the memory pointed by temp4, 
+    // so one has two explicitly pass temp4 to the function.
+    deleteCDnode(temp4);
     Display(temp4);
     cout << " ========================================\n";
     cout << " empty:\n";
     Display(empty);
-    insertDnode(empty, temp3, 3);
-    cout << " after insertion 4 (temp3 on tail of empty (three nodes))\n";
+    deleteCDnode(empty);
+    cout << " after deletion 5 (deleting the head)\n";
     cout << " ========================================\n";
     cout << " head:\n";
     Display(head);
     cout << " ========================================\n";
     cout << " temp:\n";
+    cout << " !!! note that temp is now pointing to an unallocated memory (reading temp causes abnomral program termination)\n";
+    cout << " so point temp to NULL\n now temp is:\n";
+    // for some reason the function can't free the memory pointed by temp, 
+    // so one has two explicitly pass temp to the function.
+    deleteCDnode(temp);
     Display(temp);
     cout << " ========================================\n";
     cout << " temp2:\n";
@@ -109,25 +184,4 @@ int main(){
     cout << " ========================================\n";
     cout << " empty:\n";
     Display(empty);
-    insertDnode(empty, temp4, 3);
-    cout << " after insertion 5 (temp4 on 3th node of empty (four nodes))\n";
-    cout << " ========================================\n";
-    cout << " head:\n";
-    Display(head);
-    cout << " ========================================\n";
-    cout << " temp:\n";
-    Display(temp);
-    cout << " ========================================\n";
-    cout << " temp2:\n";
-    Display(temp2);
-    cout << " ========================================\n";
-    cout << " temp3:\n";
-    Display(temp3);
-    cout << " ========================================\n";
-    cout << " temp4:\n";
-    Display(temp4);
-    cout << " ========================================\n";
-    cout << " empty:\n";
-    Display(empty);
-    return 0;
 }

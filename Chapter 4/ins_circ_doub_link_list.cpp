@@ -1,4 +1,4 @@
-// insertion of doubly linked lists
+// insertion of circular/doubly linked list illustration
 #include "structNode.hpp"
 int main(){
     Dnode* head = new Dnode({"head_node", NULL, NULL});
@@ -6,9 +6,15 @@ int main(){
     Dnode* temp2 = new Dnode({"third_head", NULL, NULL});
     Dnode* temp4 = new Dnode({"fifth_node", NULL, NULL});
     Dnode* temp3 = new Dnode({"fourth_node", NULL, temp4});
+    //
+    head->next = head->prev = head;
+    temp->next = temp->prev = temp;
+    temp2->next = temp2->prev = temp2;
+    temp3->next = temp3->prev = temp3;
+    temp4->next = temp4->prev = temp4;
+    //
     Dnode* empty = NULL;
-    // description
-    cout << " insertion operation for a doubly linked list:\n";
+    cout << " insertion operation for a doubly/circular linked list:\n";
     cout << " insertion is done before the index/location\n";
     cout << " to insert after index/location use index value as index + 1\n";
     cout << " ========================================\n";
@@ -29,8 +35,8 @@ int main(){
     cout << " ========================================\n";
     cout << " empty:\n";
     Display(empty);
-    insertDnode(empty, head);
-    cout << " after insertion 1 (head on empty (empty node))\n";
+    
+
     cout << " ========================================\n";
     cout << " head:\n";
     Display(head);
@@ -49,8 +55,8 @@ int main(){
     cout << " ========================================\n";
     cout << " empty:\n";
     Display(empty);
-    insertDnode(empty, temp);
-    cout << " after insertion 2 (temp on head of empty (one node))\n";
+    insertCDnode(empty, temp);
+    cout << " after insertion 2 (inserting temp as head of empty (has one node)\n";
     cout << " ========================================\n";
     cout << " head:\n";
     Display(head);
@@ -69,8 +75,8 @@ int main(){
     cout << " ========================================\n";
     cout << " empty:\n";
     Display(empty);
-    insertDnode(empty, temp2, 1);
-    cout << " after insertion 3 (temp2 on 1th node of empty (two nodes))\n";
+    insertCDnode(empty, temp2, 1);
+    cout << " after insertion 3 (inserting temp2 at 1th position of empty (has two nodes)\n";
     cout << " ========================================\n";
     cout << " head:\n";
     Display(head);
@@ -89,8 +95,8 @@ int main(){
     cout << " ========================================\n";
     cout << " empty:\n";
     Display(empty);
-    insertDnode(empty, temp3, 3);
-    cout << " after insertion 4 (temp3 on tail of empty (three nodes))\n";
+    insertCDnode(empty, temp3, 2);
+    cout << " after insertion 4 (inserting temp3 at 2th position of empty (has three nodes)\n";
     cout << " ========================================\n";
     cout << " head:\n";
     Display(head);
@@ -109,8 +115,8 @@ int main(){
     cout << " ========================================\n";
     cout << " empty:\n";
     Display(empty);
-    insertDnode(empty, temp4, 3);
-    cout << " after insertion 5 (temp4 on 3th node of empty (four nodes))\n";
+    insertCDnode(empty, temp4, 4);
+    cout << " after insertion 5 (inserting temp4 at 4th position of empty (has four nodes)\n";
     cout << " ========================================\n";
     cout << " head:\n";
     Display(head);
@@ -129,5 +135,4 @@ int main(){
     cout << " ========================================\n";
     cout << " empty:\n";
     Display(empty);
-    return 0;
 }
