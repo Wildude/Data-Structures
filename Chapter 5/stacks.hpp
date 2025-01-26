@@ -55,27 +55,28 @@ class arraystack{
         delete array;
     }
 };
+template <class T>
 class nodestack{
-    Snode* head = NULL;
-    Snode* top = NULL;
+    Lnode<T>* head = NULL;
+    Lnode<T>* top = NULL;
     public:
-    void push(Snode* node){
+    void push(Lnode<T>* node){
         insertSnode(head, node);
         top = head;
     }
-    Snode* pop(){
+    Lnode<T>* pop(){
         if(!top){
             cout << " Stack Underflow\a\n";
             return NULL;
         }
-        static Snode* popped = new Snode();
+        static Lnode<T>* popped = new Lnode<T>();
         delete popped;
-        popped = new Snode({head->id, head->next});
+        popped = new Lnode<T>({head->id, head->next});
         deleteSnode(head);
         top = head;
         return popped;
     }
-    Snode* peek() const{  // accessor function: so as to not affect the top node using this function
+    Lnode<T>* peek() const{  // accessor function: so as to not affect the top node using this function
         return top;
     }
     int size(){

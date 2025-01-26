@@ -142,13 +142,14 @@ class arrayqueueC{
         return queuesize == maxsize;
     }
 };
+template <class T>
 class nodequeue{
-    Snode* head = NULL;
-    Snode* front = NULL;
-    Snode* rear = NULL;
+    Lnode<T>* head = NULL;
+    Lnode<T>* front = NULL;
+    Lnode<T>* rear = NULL;
     public:
-    void insert(Snode* node){
-        Snode* tailnode = head; 
+    void insert(Lnode<T>* node){
+        Lnode<T>* tailnode = head; 
         int counter = 0;
         while(tailnode){
             tailnode = tailnode->next;
@@ -158,26 +159,26 @@ class nodequeue{
         rear = node;
         if(!front)front = node;
     }
-    Snode* remove(){
+    Lnode<T>* remove(){
         if(!front){
             cout << " Queue Underflow\a\n";
             return NULL;
         }
-        static Snode* removed = new Snode();
+        static Lnode<T>* removed = new Lnode<T>();
         delete removed;
-        removed = new Snode({front->id, front->next});
+        removed = new Lnode<T>({front->id, front->next});
         deleteSnode(front);
         if(!front)rear = NULL;
         return removed;
     }
-    Snode* peekR() const{
+    Lnode<T>* peekR() const{
         if(!rear){
             cout << " empty queue\a\n";
             return NULL;
         }
         return rear;
     }
-    Snode* peekF() const{
+    Lnode<T>* peekF() const{
         if(!front){
             cout << " empty queue\a\n";
             return NULL;
@@ -410,18 +411,19 @@ class dequeC{
         return !dequesize;
     }
 };
+template <class T>
 class nodedeque{
-    Dnode* head = NULL;
-    Dnode* front = NULL;
-    Dnode* rear = NULL;
+    Bnode<T>* head = NULL;
+    Bnode<T>* front = NULL;
+    Bnode<T>* rear = NULL;
     public:
-    void insertF(Dnode* node){
+    void insertF(Bnode<T>* node){
         insertDnode(head, node);
         front = head;
         if(!rear)rear = front;
     }
-    void insertR(Dnode* node){
-        Dnode* tail = head;
+    void insertR(Bnode<T>* node){
+        Bnode<T>* tail = head;
         int counter = 0;
         while(tail){
             tail = tail->next;
@@ -431,16 +433,16 @@ class nodedeque{
         rear = node;
         if(!front)front = rear;
     }
-    Dnode* removeF(){
+    Bnode<T>* removeF(){
         if(!front){
             cout << " Deque Underflow\a\n";
             return NULL;
         }
-        static Dnode* removedF = new Dnode();
+        static Bnode<T>* removedF = new Bnode<T>();
         delete removedF;
-        removedF = new Dnode({front->id, front->prev, front->next});
+        removedF = new Bnode<T>({front->id, front->prev, front->next});
         if(head->next == NULL && head->prev == NULL){
-            Dnode* temp = head;
+            Bnode<T>* temp = head;
             head = NULL;
             delete temp;
             front = head;
@@ -451,16 +453,16 @@ class nodedeque{
         front = head;
         return removedF;
     }
-    Dnode* removeR(){
+    Bnode<T>* removeR(){
         if(!rear){
             cout << " Deque Underflow\n\a";
             return NULL;
         }
-        static Dnode* removedR = new Dnode();
+        static Bnode<T>* removedR = new Bnode<T>();
         delete removedR;
-        removedR = new Dnode({rear->id, rear->prev, rear->next});
+        removedR = new Bnode<T>({rear->id, rear->prev, rear->next});
         if(head->next == NULL && head->prev == NULL){
-            Dnode* temp = head;
+            Bnode<T>* temp = head;
             head = NULL;
             delete temp;
             rear = head;
@@ -468,7 +470,7 @@ class nodedeque{
             return removedR;
         }
         deleteDnode(head, getSize(head) - 1);
-        Dnode* tail = head;
+        Bnode<T>* tail = head;
         int counter = 0;
         if(tail)
         while(tail->next){
@@ -477,14 +479,14 @@ class nodedeque{
         rear = tail;
         return removedR;
     }
-    Dnode* peekF(){
+    Bnode<T>* peekF(){
         if(!front){
             cout << " Deque Empty\a\n";
             return NULL;
         }
         return front;
     }
-    Dnode* peekR(){
+    Bnode<T>* peekR(){
         if(!rear){
             cout << " Deque Empty\a\n";
             return NULL;
