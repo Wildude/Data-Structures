@@ -148,25 +148,38 @@ class nodequeue{
     Lnode<T>* front = NULL;
     Lnode<T>* rear = NULL;
     public:
-    void insert(Lnode<T>* node){
+    void insert(T data){
+        Lnode<T>* temp = new Lnode<T>({data, NULL});
         Lnode<T>* tailnode = head; 
         int counter = 0;
         while(tailnode){
             tailnode = tailnode->next;
             counter++;
         }
-        nextNode(head, counter) = node;
-        rear = node;
-        if(!front)front = node;
+        nextNode(head, counter) = temp;
+        rear = temp;
+        if(!front)front = temp;
+    }
+    void insert(Lnode<T>* node){
+        Lnode<T>* temp = new Lnode<T>({node->id, NULL});
+        Lnode<T>* tailnode = head; 
+        int counter = 0;
+        while(tailnode){
+            tailnode = tailnode->next;
+            counter++;
+        }
+        nextNode(head, counter) = temp;
+        rear = temp;
+        if(!front)front = temp;
     }
     Lnode<T>* remove(){
         if(!front){
             cout << " Queue Underflow\a\n";
             return NULL;
         }
-        static Lnode<T>* removed = new Lnode<T>();
-        delete removed;
-        removed = new Lnode<T>({front->id, front->next});
+        Lnode<T>* removed = new Lnode<T>({front->id, front->next});
+        //delete removed;
+        //removed = new Lnode<T>({front->id, front->next});
         deleteSnode(front);
         if(!front)rear = NULL;
         return removed;

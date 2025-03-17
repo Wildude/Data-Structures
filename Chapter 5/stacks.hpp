@@ -60,8 +60,14 @@ class nodestack{
     Lnode<T>* head = NULL;
     Lnode<T>* top = NULL;
     public:
+    void push(T data){
+        Lnode<T>* temp = new Lnode<T>({data, NULL});
+        insertSnode(head, temp);
+        top = head;
+    }
     void push(Lnode<T>* node){
-        insertSnode(head, node);
+        Lnode<T>* temp = new Lnode<T>({node->id, NULL});
+        insertSnode(head, temp);
         top = head;
     }
     Lnode<T>* pop(){
@@ -69,9 +75,9 @@ class nodestack{
             cout << " Stack Underflow\a\n";
             return NULL;
         }
-        static Lnode<T>* popped = new Lnode<T>();
-        delete popped;
-        popped = new Lnode<T>({head->id, head->next});
+        Lnode<T>* popped = new Lnode<T>({head->id, head->next});
+        //delete popped;
+        //popped = new Lnode<T>({head->id, head->next});
         deleteSnode(head);
         top = head;
         return popped;
